@@ -16,38 +16,38 @@ const Index = () => {
     {
       icon: 'Home',
       title: 'Вывоз из квартиры',
-      description: 'Быстрый вывоз мусора из квартир любой площади с грузчиками',
+      description: 'Быстрый вывоз бытового мусора из квартир любой площади',
       price: 'от 1500 ₽'
     },
     {
       icon: 'Building2',
-      title: 'Вывоз из офиса',
-      description: 'Профессиональная уборка и вывоз офисного мусора',
-      price: 'от 2500 ₽'
-    },
-    {
-      icon: 'Hammer',
-      title: 'Строительный мусор',
-      description: 'Утилизация строительных отходов после ремонта',
-      price: 'от 3000 ₽'
-    },
-    {
-      icon: 'Recycle',
-      title: 'Крупногабаритный мусор',
-      description: 'Вывоз мебели, техники и других крупных предметов',
+      title: 'Вывоз из дома',
+      description: 'Вывоз бытовых отходов из частных домов и коттеджей',
       price: 'от 2000 ₽'
     },
     {
-      icon: 'Leaf',
-      title: 'Садовый мусор',
-      description: 'Уборка и вывоз веток, листьев, растительных отходов',
+      icon: 'Trash2',
+      title: 'Крупногабаритный мусор',
+      description: 'Вывоз старой мебели, матрасов и бытовой техники',
       price: 'от 1800 ₽'
     },
     {
-      icon: 'Trash2',
+      icon: 'Package',
+      title: 'Упаковка и картон',
+      description: 'Утилизация картонных коробок и упаковочных материалов',
+      price: 'от 800 ₽'
+    },
+    {
+      icon: 'Recycle',
+      title: 'Раздельный сбор',
+      description: 'Вывоз с сортировкой на пластик, стекло, бумагу',
+      price: 'от 1200 ₽'
+    },
+    {
+      icon: 'CalendarCheck',
       title: 'Регулярный вывоз',
       description: 'Абонементное обслуживание для постоянных клиентов',
-      price: 'от 1200 ₽'
+      price: 'от 1000 ₽'
     }
   ];
 
@@ -55,19 +55,19 @@ const Index = () => {
     {
       name: 'Анна Петрова',
       rating: 5,
-      text: 'Отличный сервис! Приехали быстро, убрали весь мусор после ремонта. Ребята аккуратные и вежливые.',
+      text: 'Отличный сервис! Вывезли весь бытовой мусор из квартиры после уборки. Ребята аккуратные и вежливые.',
       date: '15.12.2024'
     },
     {
       name: 'Сергей Иванов',
       rating: 5,
-      text: 'Пользуемся услугами регулярно для нашего офиса. Всегда приезжают вовремя, цены адекватные.',
+      text: 'Заказываю регулярный вывоз для дома. Всегда приезжают вовремя, цены адекватные. Очень доволен!',
       date: '10.12.2024'
     },
     {
       name: 'Мария Соколова',
       rating: 5,
-      text: 'Помогли вывезти старую мебель и технику. Всё сделали быстро и профессионально. Рекомендую!',
+      text: 'Помогли вывезти старую мебель и холодильник. Всё сделали быстро и профессионально. Рекомендую!',
       date: '05.12.2024'
     }
   ];
@@ -77,15 +77,15 @@ const Index = () => {
 
     const baseRates: { [key: string]: number } = {
       'apartment': 1500,
-      'office': 2500,
-      'construction': 3000,
-      'furniture': 2000,
-      'garden': 1800
+      'house': 2000,
+      'furniture': 1800,
+      'packaging': 800,
+      'recycling': 1200
     };
 
     const volumeMultiplier = parseFloat(volume);
     const basePrice = baseRates[wasteType] || 1500;
-    const total = basePrice + (volumeMultiplier * 500);
+    const total = basePrice + (volumeMultiplier * 400);
 
     setCalculatedPrice(total);
   };
@@ -215,10 +215,10 @@ const Index = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="apartment">Вывоз из квартиры</SelectItem>
-                    <SelectItem value="office">Вывоз из офиса</SelectItem>
-                    <SelectItem value="construction">Строительный мусор</SelectItem>
+                    <SelectItem value="house">Вывоз из дома</SelectItem>
                     <SelectItem value="furniture">Крупногабаритный мусор</SelectItem>
-                    <SelectItem value="garden">Садовый мусор</SelectItem>
+                    <SelectItem value="packaging">Упаковка и картон</SelectItem>
+                    <SelectItem value="recycling">Раздельный сбор</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -437,9 +437,9 @@ const Index = () => {
               <h3 className="font-semibold mb-4">Услуги</h3>
               <ul className="space-y-2 text-white/70">
                 <li><a href="#" className="hover:text-white transition-colors">Вывоз из квартиры</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Строительный мусор</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Вывоз из дома</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Крупногабаритный мусор</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Регулярный вывоз</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Раздельный сбор</a></li>
               </ul>
             </div>
             <div>
