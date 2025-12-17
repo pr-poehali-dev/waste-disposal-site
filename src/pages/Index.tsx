@@ -2,188 +2,281 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
 
 const Index = () => {
-  const [wasteType, setWasteType] = useState('');
-  const [volume, setVolume] = useState('');
-  const [calculatedPrice, setCalculatedPrice] = useState<number | null>(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const features = [
+    {
+      icon: 'Smartphone',
+      title: 'Заказ за 30 секунд',
+      description: 'Откройте приложение, укажите адрес и время — готово!'
+    },
+    {
+      icon: 'MapPin',
+      title: 'Отслеживание машины',
+      description: 'Видите где находится машина в реальном времени'
+    },
+    {
+      icon: 'CreditCard',
+      title: 'Оплата картой',
+      description: 'Безналичная оплата прямо в приложении'
+    },
+    {
+      icon: 'Clock',
+      title: 'Приедем за 2 часа',
+      description: 'Быстрый выезд в удобное для вас время'
+    }
+  ];
 
   const services = [
     {
       icon: 'Home',
       title: 'Вывоз из квартиры',
-      description: 'Быстрый вывоз бытового мусора из квартир любой площади',
-      price: 'от 1500 ₽'
+      description: 'Бытовой мусор, пакеты, коробки',
+      price: 'от 500 ₽'
     },
     {
-      icon: 'Building2',
-      title: 'Вывоз из дома',
-      description: 'Вывоз бытовых отходов из частных домов и коттеджей',
-      price: 'от 2000 ₽'
+      icon: 'Sofa',
+      title: 'Старая мебель',
+      description: 'Диваны, шкафы, кресла, столы',
+      price: 'от 800 ₽'
     },
     {
-      icon: 'Trash2',
-      title: 'Крупногабаритный мусор',
-      description: 'Вывоз старой мебели, матрасов и бытовой техники',
-      price: 'от 1800 ₽'
+      icon: 'Tv',
+      title: 'Техника',
+      description: 'Холодильники, стиральные машины',
+      price: 'от 600 ₽'
     },
     {
       icon: 'Package',
-      title: 'Упаковка и картон',
-      description: 'Утилизация картонных коробок и упаковочных материалов',
-      price: 'от 800 ₽'
+      title: 'После ремонта',
+      description: 'Упаковка, картон, остатки материалов',
+      price: 'от 700 ₽'
+    },
+    {
+      icon: 'Trees',
+      title: 'Садовый мусор',
+      description: 'Ветки, листья, трава, земля',
+      price: 'от 900 ₽'
     },
     {
       icon: 'Recycle',
       title: 'Раздельный сбор',
-      description: 'Вывоз с сортировкой на пластик, стекло, бумагу',
-      price: 'от 1200 ₽'
-    },
-    {
-      icon: 'CalendarCheck',
-      title: 'Регулярный вывоз',
-      description: 'Абонементное обслуживание для постоянных клиентов',
-      price: 'от 1000 ₽'
+      description: 'Пластик, стекло, бумага отдельно',
+      price: 'от 400 ₽'
     }
+  ];
+
+  const districts = [
+    { name: 'Центр', time: '30 мин', icon: 'Building2' },
+    { name: 'ФМР', time: '40 мин', icon: 'Building' },
+    { name: 'КМР', time: '45 мин', icon: 'Home' },
+    { name: 'ЮМР', time: '50 мин', icon: 'MapPin' },
+    { name: 'Пашковский', time: '60 мин', icon: 'Locate' },
+    { name: 'Прикубанский', time: '55 мин', icon: 'Navigation' }
   ];
 
   const reviews = [
     {
-      name: 'Анна Петрова',
+      name: 'Елена Морозова',
+      avatar: '👩',
       rating: 5,
-      text: 'Отличный сервис! Вывезли весь бытовой мусор из квартиры после уборки. Ребята аккуратные и вежливые.',
-      date: '15.12.2024'
+      text: 'Супер удобное приложение! Заказала вывоз старого дивана за минуту. Ребята приехали точно вовремя, все вынесли сами. Оплатила картой в приложении.',
+      date: '2 дня назад'
     },
     {
-      name: 'Сергей Иванов',
+      name: 'Дмитрий Козлов',
+      avatar: '👨',
       rating: 5,
-      text: 'Заказываю регулярный вывоз для дома. Всегда приезжают вовремя, цены адекватные. Очень доволен!',
-      date: '10.12.2024'
+      text: 'После ремонта накопилось много мусора. В приложении заказал большой контейнер, следил где машина едет. Все четко и быстро, рекомендую!',
+      date: '5 дней назад'
     },
     {
-      name: 'Мария Соколова',
+      name: 'Ольга Соколова',
+      avatar: '👩‍🦰',
       rating: 5,
-      text: 'Помогли вывезти старую мебель и холодильник. Всё сделали быстро и профессионально. Рекомендую!',
-      date: '05.12.2024'
+      text: 'Пользуюсь регулярно для вывоза мусора с дачи. Цены честные, всегда приезжают вовремя. Приложение работает отлично, очень удобно.',
+      date: 'неделю назад'
     }
   ];
 
-  const calculatePrice = () => {
-    if (!wasteType || !volume) return;
-
-    const baseRates: { [key: string]: number } = {
-      'apartment': 1500,
-      'house': 2000,
-      'furniture': 1800,
-      'packaging': 800,
-      'recycling': 1200
-    };
-
-    const volumeMultiplier = parseFloat(volume);
-    const basePrice = baseRates[wasteType] || 1500;
-    const total = basePrice + (volumeMultiplier * 400);
-
-    setCalculatedPrice(total);
+  const handleDownload = () => {
+    alert('Приложение скоро будет доступно в App Store и Google Play!');
   };
 
   return (
-    <div className="min-h-screen">
-      <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50">
+    <div className="min-h-screen bg-white">
+      <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md shadow-sm z-50 border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Icon name="Recycle" className="text-primary" size={32} />
-              <span className="text-2xl font-bold text-primary">ЭкоВывоз</span>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                <Icon name="Trash2" className="text-white" size={24} />
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                ВывозOK
+              </span>
             </div>
-            <nav className="hidden md:flex items-center gap-6">
-              <a href="#services" className="hover:text-primary transition-colors">Услуги</a>
-              <a href="#calculator" className="hover:text-primary transition-colors">Калькулятор</a>
-              <a href="#about" className="hover:text-primary transition-colors">О нас</a>
-              <a href="#reviews" className="hover:text-primary transition-colors">Отзывы</a>
-              <a href="#contact" className="hover:text-primary transition-colors">Контакты</a>
-            </nav>
-            <Button className="hidden md:flex">
-              <Icon name="Phone" size={18} className="mr-2" />
-              Позвонить
+            <Button className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700">
+              <Icon name="Download" size={18} className="mr-2" />
+              Скачать приложение
             </Button>
           </div>
         </div>
       </header>
 
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-green-50 via-emerald-50 to-white">
-        <div className="container mx-auto">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-6 animate-fade-in">
-              <Icon name="Leaf" size={20} />
-              <span className="text-sm font-medium">Экологичная утилизация</span>
+      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-green-50 via-emerald-50 to-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className="container mx-auto relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full mb-6 animate-fade-in">
+                <Icon name="Sparkles" size={18} />
+                <span className="text-sm font-semibold">Новое приложение в Краснодаре</span>
+              </div>
+              <h1 className="text-5xl md:text-6xl font-extrabold mb-6 text-gray-900 leading-tight">
+                Вывоз мусора<br />
+                <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                  в один клик
+                </span>
+              </h1>
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                Закажите вывоз бытового мусора через приложение за 30 секунд. Следите за машиной на карте и оплачивайте картой.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <Button size="lg" onClick={handleDownload} className="text-lg px-8 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-lg">
+                  <Icon name="Download" size={22} className="mr-2" />
+                  Скачать приложение
+                </Button>
+                <Button size="lg" variant="outline" className="text-lg px-8 border-2 border-green-500 text-green-600 hover:bg-green-50">
+                  <Icon name="Play" size={22} className="mr-2" />
+                  Смотреть видео
+                </Button>
+              </div>
+              <div className="flex items-center gap-8 text-sm text-gray-600">
+                <div className="flex items-center gap-2">
+                  <Icon name="Apple" size={24} className="text-gray-700" />
+                  <span>App Store</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Icon name="Smartphone" size={24} className="text-gray-700" />
+                  <span>Google Play</span>
+                </div>
+              </div>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground animate-fade-in">
-              Вывоз мусора в Краснодаре
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8 animate-fade-in">
-              Быстро, надежно и с заботой об окружающей среде. Вывезем любой мусор за 2 часа.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
-              <Button size="lg" className="text-lg px-8">
-                <Icon name="CalendarCheck" size={20} className="mr-2" />
-                Заказать вывоз
-              </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8">
-                <Icon name="Calculator" size={20} className="mr-2" />
-                Рассчитать стоимость
-              </Button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6 text-center">
-                  <Icon name="Clock" className="mx-auto text-primary mb-3" size={40} />
-                  <h3 className="font-semibold text-lg mb-2">Приедем за 2 часа</h3>
-                  <p className="text-muted-foreground text-sm">Быстрый выезд по всему Краснодару</p>
-                </CardContent>
-              </Card>
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6 text-center">
-                  <Icon name="Users" className="mx-auto text-primary mb-3" size={40} />
-                  <h3 className="font-semibold text-lg mb-2">Грузчики в подарок</h3>
-                  <p className="text-muted-foreground text-sm">Поможем вынести и погрузить</p>
-                </CardContent>
-              </Card>
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6 text-center">
-                  <Icon name="Shield" className="mx-auto text-primary mb-3" size={40} />
-                  <h3 className="font-semibold text-lg mb-2">100% надежность</h3>
-                  <p className="text-muted-foreground text-sm">Работаем официально с договором</p>
-                </CardContent>
-              </Card>
+            <div className="relative">
+              <div className="relative w-full max-w-md mx-auto">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 rounded-3xl blur-3xl opacity-20 animate-pulse"></div>
+                <Card className="relative border-4 border-gray-200 shadow-2xl rounded-3xl overflow-hidden">
+                  <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-6 text-white">
+                    <div className="flex items-center justify-between mb-4">
+                      <Icon name="Menu" size={24} />
+                      <Icon name="User" size={24} />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">Заказать вывоз</h3>
+                    <p className="text-green-50 text-sm">Краснодар • Онлайн</p>
+                  </div>
+                  <CardContent className="p-6 space-y-4">
+                    <div className="bg-gray-50 p-4 rounded-xl">
+                      <div className="flex items-start gap-3">
+                        <Icon name="MapPin" className="text-green-600 mt-1" size={20} />
+                        <div className="flex-1">
+                          <p className="text-xs text-gray-500 mb-1">Откуда</p>
+                          <p className="font-semibold">ул. Красная, 123</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-xl">
+                      <div className="flex items-start gap-3">
+                        <Icon name="Package" className="text-green-600 mt-1" size={20} />
+                        <div className="flex-1">
+                          <p className="text-xs text-gray-500 mb-1">Что вывозим</p>
+                          <p className="font-semibold">Бытовой мусор • 3 мешка</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-4 rounded-xl text-white">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-green-100">Стоимость</p>
+                          <p className="text-2xl font-bold">750 ₽</p>
+                        </div>
+                        <div className="bg-white text-green-600 px-4 py-2 rounded-lg font-semibold">
+                          Заказать
+                        </div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-3 pt-2">
+                      <div className="text-center">
+                        <Icon name="Clock" className="mx-auto text-green-600 mb-1" size={20} />
+                        <p className="text-xs text-gray-600">30 мин</p>
+                      </div>
+                      <div className="text-center">
+                        <Icon name="CreditCard" className="mx-auto text-green-600 mb-1" size={20} />
+                        <p className="text-xs text-gray-600">Картой</p>
+                      </div>
+                      <div className="text-center">
+                        <Icon name="Star" className="mx-auto text-green-600 mb-1" size={20} />
+                        <p className="text-xs text-gray-600">Рейтинг 5.0</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="services" className="py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Как это работает</h2>
+            <p className="text-xl text-gray-600">Просто, быстро и удобно</p>
+          </div>
+          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {features.map((feature, index) => (
+              <div key={index} className="text-center group">
+                <div className="relative mb-6">
+                  <div className="w-20 h-20 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform shadow-lg">
+                    <Icon name={feature.icon} className="text-green-600" size={36} />
+                  </div>
+                  {index < 3 && (
+                    <div className="hidden md:block absolute top-10 -right-8 text-green-300">
+                      <Icon name="ArrowRight" size={24} />
+                    </div>
+                  )}
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-gray-900">{feature.title}</h3>
+                <p className="text-gray-600 text-sm">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-gradient-to-br from-gray-50 to-green-50">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Наши услуги</h2>
-            <p className="text-muted-foreground text-lg">Вывозим любые виды мусора с заботой об экологии</p>
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Что мы вывозим</h2>
+            <p className="text-xl text-gray-600">Все виды бытового мусора</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {services.map((service, index) => (
-              <Card key={index} className="hover:shadow-xl transition-all hover:-translate-y-1">
+              <Card key={index} className="hover:shadow-xl transition-all hover:-translate-y-2 border-2 hover:border-green-200">
                 <CardHeader>
-                  <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                    <Icon name={service.icon} className="text-primary" size={28} />
+                  <div className="w-14 h-14 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl flex items-center justify-center mb-4">
+                    <Icon name={service.icon} className="text-green-600" size={28} />
                   </div>
-                  <CardTitle className="text-xl">{service.title}</CardTitle>
-                  <CardDescription className="text-base">{service.description}</CardDescription>
+                  <CardTitle className="text-xl text-gray-900">{service.title}</CardTitle>
+                  <CardDescription className="text-gray-600">{service.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-primary">{service.price}</span>
-                    <Button variant="ghost" size="sm">
+                    <span className="text-2xl font-bold text-green-600">{service.price}</span>
+                    <Button variant="ghost" className="text-green-600 hover:text-green-700 hover:bg-green-50">
                       Заказать <Icon name="ArrowRight" size={16} className="ml-1" />
                     </Button>
                   </div>
@@ -194,149 +287,19 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="calculator" className="py-20 px-4 bg-gradient-to-br from-emerald-50 to-green-50">
-        <div className="container mx-auto max-w-3xl">
-          <Card className="shadow-2xl">
-            <CardHeader className="text-center">
-              <CardTitle className="text-3xl flex items-center justify-center gap-2">
-                <Icon name="Calculator" className="text-primary" size={32} />
-                Калькулятор стоимости
-              </CardTitle>
-              <CardDescription className="text-base">
-                Узнайте примерную стоимость вывоза мусора
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="waste-type">Тип мусора</Label>
-                <Select value={wasteType} onValueChange={setWasteType}>
-                  <SelectTrigger id="waste-type">
-                    <SelectValue placeholder="Выберите тип мусора" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="apartment">Вывоз из квартиры</SelectItem>
-                    <SelectItem value="house">Вывоз из дома</SelectItem>
-                    <SelectItem value="furniture">Крупногабаритный мусор</SelectItem>
-                    <SelectItem value="packaging">Упаковка и картон</SelectItem>
-                    <SelectItem value="recycling">Раздельный сбор</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="volume">Объем (м³)</Label>
-                <Input
-                  id="volume"
-                  type="number"
-                  placeholder="Введите объем"
-                  value={volume}
-                  onChange={(e) => setVolume(e.target.value)}
-                  min="1"
-                  max="50"
-                />
-              </div>
-              <Button onClick={calculatePrice} className="w-full" size="lg">
-                <Icon name="Calculator" size={20} className="mr-2" />
-                Рассчитать стоимость
-              </Button>
-              {calculatedPrice && (
-                <Card className="bg-primary/5 border-primary/20 animate-fade-in">
-                  <CardContent className="pt-6">
-                    <div className="text-center">
-                      <p className="text-muted-foreground mb-2">Примерная стоимость</p>
-                      <p className="text-4xl font-bold text-primary">{calculatedPrice} ₽</p>
-                      <p className="text-sm text-muted-foreground mt-2">
-                        Точная цена рассчитывается после осмотра
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      <section id="about" className="py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-5xl">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-6">
-                <Icon name="Sparkles" size={20} />
-                <span className="text-sm font-medium">О компании</span>
-              </div>
-              <h2 className="text-4xl font-bold mb-6">Забота об экологии — наша миссия</h2>
-              <p className="text-muted-foreground text-lg mb-6">
-                Мы не просто вывозим мусор — мы заботимся о будущем нашего города. Более 90% собранных отходов отправляется на переработку.
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="Check" className="text-primary" size={20} />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Раздельный сбор</h3>
-                    <p className="text-muted-foreground">Сортируем отходы для максимальной переработки</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="Check" className="text-primary" size={20} />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Лицензии и документы</h3>
-                    <p className="text-muted-foreground">Работаем официально с полным пакетом разрешений</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Icon name="Check" className="text-primary" size={20} />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Современный автопарк</h3>
-                    <p className="text-muted-foreground">Экологичные грузовики стандарта Евро-5</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="bg-gradient-to-br from-primary/20 to-emerald-200 rounded-3xl p-8 h-96 flex items-center justify-center">
-                <Icon name="Leaf" className="text-primary/40" size={200} />
-              </div>
-              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl">
-                <div className="text-4xl font-bold text-primary mb-1">5000+</div>
-                <div className="text-sm text-muted-foreground">Довольных клиентов</div>
-              </div>
-              <div className="absolute -top-6 -right-6 bg-white p-6 rounded-2xl shadow-xl">
-                <div className="text-4xl font-bold text-primary mb-1">90%</div>
-                <div className="text-sm text-muted-foreground">На переработку</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="reviews" className="py-20 px-4 bg-gradient-to-br from-green-50 to-emerald-50">
-        <div className="container mx-auto max-w-6xl">
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Отзывы наших клиентов</h2>
-            <p className="text-muted-foreground text-lg">Более 5000 довольных клиентов за 5 лет работы</p>
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Работаем по всему Краснодару</h2>
+            <p className="text-xl text-gray-600">Быстрый выезд во все районы</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {reviews.map((review, index) => (
-              <Card key={index} className="hover:shadow-xl transition-shadow">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-3">
-                    <CardTitle className="text-lg">{review.name}</CardTitle>
-                    <div className="flex gap-1">
-                      {[...Array(review.rating)].map((_, i) => (
-                        <Icon key={i} name="Star" className="text-yellow-400 fill-yellow-400" size={16} />
-                      ))}
-                    </div>
-                  </div>
-                  <CardDescription className="text-base">{review.text}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">{review.date}</p>
+          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
+            {districts.map((district, index) => (
+              <Card key={index} className="text-center hover:shadow-lg transition-all hover:border-green-200 border-2">
+                <CardContent className="pt-6 pb-6">
+                  <Icon name={district.icon} className="mx-auto text-green-600 mb-3" size={32} />
+                  <h3 className="font-bold text-gray-900 mb-1">{district.name}</h3>
+                  <p className="text-sm text-gray-600">{district.time}</p>
                 </CardContent>
               </Card>
             ))}
@@ -344,124 +307,145 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="contact" className="py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-4xl">
+      <section className="py-20 px-4 bg-gradient-to-br from-green-50 to-emerald-50">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Свяжитесь с нами</h2>
-            <p className="text-muted-foreground text-lg">Оставьте заявку, и мы свяжемся с вами в течение 15 минут</p>
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Отзывы пользователей</h2>
+            <div className="flex items-center justify-center gap-2 text-yellow-500 mb-2">
+              {[...Array(5)].map((_, i) => (
+                <Icon key={i} name="Star" className="fill-current" size={24} />
+              ))}
+            </div>
+            <p className="text-gray-600">4.9 из 5 • Более 1000 довольных клиентов</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card>
-              <CardHeader>
-                <CardTitle>Отправить заявку</CardTitle>
-                <CardDescription>Заполните форму для быстрой связи</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Ваше имя</Label>
-                  <Input id="name" placeholder="Иван Иванов" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Телефон</Label>
-                  <Input id="phone" type="tel" placeholder="+7 (___) ___-__-__" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message">Сообщение</Label>
-                  <Textarea id="message" placeholder="Опишите, что нужно вывезти..." rows={4} />
-                </div>
-                <Button className="w-full" size="lg">
-                  <Icon name="Send" size={20} className="mr-2" />
-                  Отправить заявку
-                </Button>
-              </CardContent>
-            </Card>
-            <div className="space-y-6">
-              <Card>
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {reviews.map((review, index) => (
+              <Card key={index} className="hover:shadow-xl transition-shadow border-2">
                 <CardContent className="pt-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Icon name="Phone" className="text-primary" size={24} />
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-2xl">
+                      {review.avatar}
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Телефон</h3>
-                      <a href="tel:+78612345678" className="text-primary hover:underline">+7 (861) 234-56-78</a>
-                      <p className="text-sm text-muted-foreground mt-1">Ежедневно с 8:00 до 22:00</p>
+                      <p className="font-semibold text-gray-900">{review.name}</p>
+                      <div className="flex gap-1">
+                        {[...Array(review.rating)].map((_, i) => (
+                          <Icon key={i} name="Star" className="fill-yellow-400 text-yellow-400" size={14} />
+                        ))}
+                      </div>
                     </div>
                   </div>
+                  <p className="text-gray-700 mb-3 leading-relaxed">{review.text}</p>
+                  <p className="text-sm text-gray-500">{review.date}</p>
                 </CardContent>
               </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Icon name="Mail" className="text-primary" size={24} />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Email</h3>
-                      <a href="mailto:info@ekovyvoz.ru" className="text-primary hover:underline">info@ekovyvoz.ru</a>
-                      <p className="text-sm text-muted-foreground mt-1">Ответим в течение часа</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Icon name="MapPin" className="text-primary" size={24} />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Адрес</h3>
-                      <p className="text-muted-foreground">г. Краснодар, ул. Красная, 123</p>
-                      <p className="text-sm text-muted-foreground mt-1">Офис открыт пн-пт 9:00-18:00</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-gradient-to-br from-green-500 to-emerald-600 text-white">
+        <div className="container mx-auto max-w-4xl text-center">
+          <Icon name="Smartphone" className="mx-auto mb-6 animate-bounce" size={64} />
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Скачайте приложение прямо сейчас
+          </h2>
+          <p className="text-xl mb-8 text-green-50">
+            Первый заказ со скидкой 20%. Промокод: <span className="font-bold">ПЕРВЫЙ</span>
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <Button size="lg" onClick={handleDownload} className="bg-white text-green-600 hover:bg-green-50 text-lg px-8">
+              <Icon name="Apple" size={24} className="mr-2" />
+              App Store
+            </Button>
+            <Button size="lg" onClick={handleDownload} className="bg-white text-green-600 hover:bg-green-50 text-lg px-8">
+              <Icon name="Smartphone" size={24} className="mr-2" />
+              Google Play
+            </Button>
+          </div>
+          <div className="max-w-md mx-auto">
+            <p className="text-sm text-green-100 mb-3">Или получите ссылку на телефон</p>
+            <div className="flex gap-2">
+              <Input
+                type="tel"
+                placeholder="+7 (___) ___-__-__"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30"
+              />
+              <Button className="bg-white text-green-600 hover:bg-green-50">
+                Отправить
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="bg-foreground text-white py-12 px-4">
+      <footer className="bg-gray-900 text-white py-12 px-4">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Icon name="Recycle" size={28} />
-                <span className="text-xl font-bold">ЭкоВывоз</span>
+                <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                  <Icon name="Trash2" className="text-white" size={20} />
+                </div>
+                <span className="text-xl font-bold">ВывозOK</span>
               </div>
-              <p className="text-white/70">Экологичный вывоз мусора в Краснодаре с заботой о природе</p>
+              <p className="text-gray-400 text-sm">
+                Современное приложение для вывоза мусора в Краснодаре
+              </p>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Услуги</h3>
-              <ul className="space-y-2 text-white/70">
-                <li><a href="#" className="hover:text-white transition-colors">Вывоз из квартиры</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Вывоз из дома</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Крупногабаритный мусор</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Раздельный сбор</a></li>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li>Вывоз из квартиры</li>
+                <li>Старая мебель</li>
+                <li>Техника</li>
+                <li>После ремонта</li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Компания</h3>
-              <ul className="space-y-2 text-white/70">
-                <li><a href="#about" className="hover:text-white transition-colors">О нас</a></li>
-                <li><a href="#reviews" className="hover:text-white transition-colors">Отзывы</a></li>
-                <li><a href="#contact" className="hover:text-white transition-colors">Контакты</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Лицензии</a></li>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li>О приложении</li>
+                <li>Тарифы</li>
+                <li>Отзывы</li>
+                <li>Партнёрам</li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Контакты</h3>
-              <ul className="space-y-2 text-white/70">
-                <li>+7 (861) 234-56-78</li>
-                <li>info@ekovyvoz.ru</li>
-                <li>г. Краснодар, ул. Красная, 123</li>
+              <ul className="space-y-3 text-gray-400 text-sm">
+                <li className="flex items-center gap-2">
+                  <Icon name="Phone" size={16} />
+                  +7 (861) 123-45-67
+                </li>
+                <li className="flex items-center gap-2">
+                  <Icon name="Mail" size={16} />
+                  info@vyvozok.ru
+                </li>
+                <li className="flex items-center gap-2">
+                  <Icon name="MapPin" size={16} />
+                  Краснодар, ул. Красная, 123
+                </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-white/10 pt-8 text-center text-white/50">
-            <p>© 2024 ЭкоВывоз. Все права защищены.</p>
+          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-gray-400 text-sm">
+              © 2024 ВывозOK. Все права защищены.
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Icon name="Mail" size={20} />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Icon name="MessageCircle" size={20} />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Icon name="Send" size={20} />
+              </a>
+            </div>
           </div>
         </div>
       </footer>
